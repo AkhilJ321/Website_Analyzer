@@ -42,6 +42,7 @@ const App = () => {
     
   }catch(err){
     console.log(err)
+    alert('Enter a valid URL');
     
    
   }finally{

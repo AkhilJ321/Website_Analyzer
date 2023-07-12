@@ -11,7 +11,7 @@ const Data :React.FC<DataProp>=({data})=> {
     
     return (
         <div className="flex flex-wrap justify-center">
-        {data.length > 0 &&
+        {data.length > 0 ?
           data.map((item: Website) => (
             <div
               key={item.url}
@@ -29,7 +29,10 @@ const Data :React.FC<DataProp>=({data})=> {
                 <p>Word Count: {item.wordCount}</p>
               </div>
             </div>
-          ))}
+          )): (
+            <div>No internal links found.</div>
+          )}
+          
       </div>
   
     )
