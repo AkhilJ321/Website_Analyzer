@@ -3,7 +3,7 @@ import puppeteer,{ Browser, Page }  from "puppeteer";
 import { stripHtml} from "string-strip-html";
 import { v2 as cloudinary } from 'cloudinary';
 import {ScreenShotModel,IScreenshot} from "../mongodb/models/screenShot";
-import validator from 'validator';
+
 
 cloudinary.config({ 
   cloud_name: 'dwmdlzkoy', 
@@ -55,10 +55,12 @@ cloudinary.config({
     const links:(string|null)[] = await page.$$eval("a", (elements:HTMLAnchorElement[]):(string|null)[] => {
       return elements.map((el:HTMLAnchorElement) => el.getAttribute("href"));
     });
+ 
 
     const internalLinks:string[] = links
       .filter((link:string|null):link is string => link !== null && (link.startsWith("/") || link.startsWith(url as string)))
       .slice(0, 3);
+     
 
       const websites: {
         url: string;
@@ -67,6 +69,7 @@ cloudinary.config({
       }[] = [];
 
     for (const link of internalLinks) {
+      const page: Page = await browser.newPage();
       const fullLink:string = link?.startsWith("/") ? `${url}${link}` : link;
     
       await page.goto(fullLink);
@@ -111,6 +114,7 @@ cloudinary.config({
     }catch(err){
       console.log(err);
     }
+    await page.close();
     }
 
     await browser.close();
