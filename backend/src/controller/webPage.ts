@@ -3,6 +3,7 @@ import puppeteer,{ Browser, Page }  from "puppeteer";
 import { stripHtml} from "string-strip-html";
 import { v2 as cloudinary } from 'cloudinary';
 import {ScreenShotModel,IScreenshot} from "../mongodb/models/screenShot";
+import validator from 'validator';
 
 cloudinary.config({ 
   cloud_name: 'dwmdlzkoy', 
@@ -40,7 +41,7 @@ cloudinary.config({
 
  const analyzeUrl = async (req:Request, res:Response):Promise<void> => {
   const { url } = req.body;
-
+  
   try {
     const browser:Browser = await puppeteer.launch({
       args:["--disable-setuid-sandbox","--no-sandbox","--single-process","--no-zygote",],

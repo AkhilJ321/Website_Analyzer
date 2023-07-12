@@ -24,7 +24,7 @@ const App = () => {
     setData([]);
     setLoading(true);
     try{
-    const response:AxiosResponse<ApiResponse> = await axios.post("http://localhost:3000/api/analyze", {
+    const response:AxiosResponse<ApiResponse> = await axios.post("https://website-analyzer.onrender.com/api/analyze", {
       url,
     });
     
