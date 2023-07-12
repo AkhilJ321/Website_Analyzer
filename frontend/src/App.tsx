@@ -1,9 +1,13 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import { useState } from "react";
 import axios, { AxiosResponse } from "axios";
 import Data from "./components/Data"
 // import UrlForm from './components/Form';
 import "./App.css";
 import Loader from "./components/Loader";
+
+
+
 
 interface Website {
   url: string;
@@ -19,23 +23,33 @@ const App = () => {
   const [data, setData] = useState<Website[]>([]);
   const [loading,setLoading] = useState(false);
 
+
   const handleSubmit = async (e:React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setData([]);
     setLoading(true);
+    
+    // Check if the URL starts with "https://"
+    const validatedUrl = url.startsWith("https://") ? url : `https://${url}`;
+
     try{
+      
     const response:AxiosResponse<ApiResponse> = await axios.post("https://website-analyzer.onrender.com/api/analyze", {
-      url,
+      url:validatedUrl,
     });
     
     setData(response.data.websites);
     
   }catch(err){
     console.log(err)
+    
+   
   }finally{
     setLoading(false);
   }
   };
+
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-100 to-gray-200 flex flex-col items-center justify-center rounded-lg">
@@ -64,6 +78,7 @@ const App = () => {
     ) : (
       <Data data={data} />
     )}
+    
   </div>
   );
 };
