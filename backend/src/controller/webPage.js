@@ -64,6 +64,7 @@ const analyzeUrl = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             .slice(0, 3);
         const websites = [];
         for (const link of internalLinks) {
+            const page = yield browser.newPage();
             const fullLink = (link === null || link === void 0 ? void 0 : link.startsWith("/")) ? `${url}${link}` : link;
             yield page.goto(fullLink);
             // Get the HTML content from the page
@@ -105,6 +106,7 @@ const analyzeUrl = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             catch (err) {
                 console.log(err);
             }
+            yield page.close();
         }
         yield browser.close();
         res.json({ websites });
